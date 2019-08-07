@@ -13,14 +13,14 @@ export default new Router({
       name: 'home',
       component: Home
     },
-    {
-      path: '/usuarios',
-      name: 'Usuarios',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/usuarios.vue')
-    },
+    // {
+    //   path: '/usuarios',
+    //   name: 'Usuarios',
+    //   // route level code-splitting
+    //   // this generates a separate chunk (about.[hash].js) for this route
+    //   // which is lazy-loaded when the route is visited.
+    //   component: () => import(/* webpackChunkName: "about" */ './views/usuarios.vue')
+    // },
     {
       path: '/usuarios',
       name: 'Usuarios',
@@ -30,6 +30,14 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: () => import(/* webpackChunkName: "about" */ './views/login.vue'),
+      meta: {
+        guest: true
+      }
+    },
+    {
+      path: '/Escuelas',
+      name: 'Escuelas',
+      component: () => import(/* webpackChunkName: "about" */ './views/Escuelas.vue'),
       meta: {
         guest: true
       }

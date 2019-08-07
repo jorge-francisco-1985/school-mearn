@@ -1,12 +1,12 @@
 <template>
 
 <v-app>
-    <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md6>
+    <v-layout align-center justify-center >
+      <v-flex xs12 sm8 md4>
        
 
 
-        <v-card class="elevation-12">
+        <v-card class="elevation-12" max-width="500">
           
           <v-toolbar
             color="primary"
@@ -43,7 +43,7 @@
             <v-tab-item
               value="login"
             >
-              <v-card flat>
+              <v-card flat >
                 <v-card-text >
                   <v-form @submit.prevent="login" id="login-form">
                     <v-text-field v-model="editedItem.user_name" prepend-icon="how_to_reg"  label="Nombre de usuario" type="text"></v-text-field>
@@ -132,9 +132,10 @@ export default {
     login () {
       var self=this;
       UsuarioService.loginUser(self.editedItem).then(function(datos){
+        console.log(datos);
         if(datos.code==1){
-          self.$session.set("token",datos.data.token);
-          self.$session.set("userData",datos.data.user_data);
+          self.$session.set("token",datos.token);
+          self.$session.set("userData",datos.user_data);
           location.href="/";
         }else{
           self.errorMessage=datos.message;
@@ -152,7 +153,6 @@ export default {
       delete self.editedItem.repass;
       UsuarioService.insertUser(self.editedItem).then(function(response){
       self.datos=response;
-      console.log(response);
         if(self.datos.code==1){
           self.model="login";
         }

@@ -30,8 +30,9 @@ app.use(function (req, res, next) {
 //MeddleWares
 app.use(express.json());
 // Rutas
-app.use(require('./routes/routes'));
+// app.use(require('./routes/routes'));
 app.use(require('./routes/userRoutes'));
+app.use(require('./routes/escuelasRoutes'));
 //Startin Server
 
 app.listen(app.get("port"), () => {

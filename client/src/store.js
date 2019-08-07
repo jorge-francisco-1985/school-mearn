@@ -3,8 +3,14 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export const store = new Vuex.Store({
-    state: {
-        serverHost: 'http://localhost:3000/'
-    }
+export const store= new Vuex.Store({
+  state: {
+    serverHost: 'http://localhost:3000/'
+  },
+  mutations: {
+
+  },
+  actions: {
+
+  }
 })

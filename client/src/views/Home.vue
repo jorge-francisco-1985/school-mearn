@@ -1,13 +1,13 @@
 <template>
-  <v-container grid-list-xs>
-    
-  </v-container>
+  <HelloWorld />
 </template>
 
 <script>
- 
+import HelloWorld from '../components/HelloWorld';
 
-  export default {
-    
-  }
+export default {
+  components: {
+    HelloWorld,
+  },
+};
 </script>

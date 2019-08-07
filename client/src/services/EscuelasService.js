@@ -1,17 +1,17 @@
 import axios from "axios";
-const url = store.state.serverHost+"usuarios";
+const url = store.state.serverHost + "Escuelas";
 import { store } from '../store'
 
 
 
 
 
-class UsuariosService {
+class EscuelasService {
     //Get Posts
-    static getUsuarios(token) {
+    static getEscuelas(token) {
         return new Promise(async (resolve, reject) => {
             try {
-                const res = await axios.get(url+"/"+token);
+                const res = await axios.get(url + "/" + token);
                 const data = res.data;
                 resolve(
                     data
@@ -22,10 +22,10 @@ class UsuariosService {
         })
     }
     //Create Posts
-    static insertUser(user) {
+    static insertEscuela(escuela) {
         return new Promise(async (resolve, reject) => {
             try {
-                const res = await axios.post(store.state.serverHost + "usuarios", {user:user});
+                const res = await axios.post(url, escuela);
                 const data = res.data;
                 resolve(
                     data
@@ -35,10 +35,10 @@ class UsuariosService {
             }
         })
     }
-    static loginUser(user){
-        return new Promise(async (resolve,reject)=>{
-            try{
-                const res = await axios.post(store.state.serverHost+"usuarios/login",user);
+    static editarEscuela(request) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const res = await axios.put(url, request);
                 const data = res.data;
                 resolve(
                     data
@@ -50,9 +50,9 @@ class UsuariosService {
     }
     // Delete Posts
 
-    static deletePost(id) {
+    static deleteEscuela(id) {
         return axios.delete(`${url}${id}`);
     }
 }
 
-export default UsuariosService;
+export default EscuelasService;

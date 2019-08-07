@@ -1,20 +1,24 @@
 import Vue from 'vue'
-import './plugins/vuetify'
 import App from './App.vue'
-import Login from './views/login.vue'
 import router from './router'
+import store from './store'
+import Login from './views/login.vue'
+import vuetify from './plugins/vuetify';
 import './session'
+
 Vue.config.productionTip = false
 
 new Vue({
   router,
-  render: function(h){
+  store,
+  vuetify,
+  render: function (h) {
     // this.$session.remove("token");
-    if (this.$session.exists("token")){
-        return h(App) 
-      }else{
-        return h(Login) 
-      }
-           
+    if (this.$session.exists("token")) {
+      return h(App)
+    } else {
+      return h(Login)
+    }
+
   }
 }).$mount('#app')

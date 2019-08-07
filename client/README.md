@@ -1,4 +1,4 @@
-# admin-school-client
+# client
 
 ## Project setup
 ```

@@ -19,6 +19,7 @@
 <script>
  import UsuarioService from '../services/UsuariosService';
 
+
  export default {
     data: () => ({
         pagination: {
@@ -69,7 +70,8 @@
     }),
     async created(){
         try {
-            this.usuarios=await UsuarioService.getUsuarios();
+            this.usuarios=await UsuarioService.getUsuarios(this.$session.get("token"));
+            this.$session.set("token",this.usuario.token,);
         } catch (error) {
             this.error=error.message;
         }
