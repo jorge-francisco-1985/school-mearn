@@ -1,5 +1,5 @@
 const express=require("express");
-
+const fileUpload = require('express-fileupload')
 const app=express();
 
 
@@ -26,6 +26,7 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next();
 });
+app.use(fileUpload())
 
 //MeddleWares
 app.use(express.json());

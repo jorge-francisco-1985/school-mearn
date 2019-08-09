@@ -17,107 +17,85 @@
                   
                 </v-flex>
                 <v-flex xs1>
-                  <v-dialog v-model="dialogNewEscuela" persistent max-width="500px">
-                    <template v-slot:activator="{ on }">
-                      <v-btn color="black"  icon dark v-on="on"><v-icon>add</v-icon></v-btn>
-                    </template>
-                    <v-card > 
-                      <v-card-title >
-                        <span class="headline">Agregar escuela</span>
-                      </v-card-title>
-                      <v-card-text>
-                        <v-container grid-list-md>
-                          <v-layout row wrap>
-                            <v-flex xs12>
-                              <v-text-field label="Clave de la escuela" v-model="editedItem.id_escuela"></v-text-field>
-                            </v-flex>
-                            <v-flex xs12>
-                              <v-text-field label="Nombre*" required v-model="editedItem.nombre"></v-text-field>
-                            </v-flex>
-                            <v-flex xs12>
-                                <v-text-field label="Direccion" v-model="editedItem.direccion"></v-text-field>
-                            </v-flex>                            
-                          </v-layout>
-                        </v-container>
-                        <small>*indicates required field</small>
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" flat @click="dialogNewEscuela = false">Cerrar</v-btn>
-                        <v-btn color="blue darken-1" flat @click="insertarEsuela()">Guardar</v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>    
+                     <v-btn color="black"  icon dark @click="dialogNewEscuela=true"><v-icon>add</v-icon></v-btn>
                 </v-flex>
               </v-layout>
             
             </v-toolbar>
       </v-card-title>
       <v-card-text >
-        <v-card style="min-height:80%">
-          <v-card-text>
-            <v-data-iterator
-          :items="escuelas"
-          :rows-per-page-items="rowsPerPageItems"
-          :pagination.sync="pagination"
-          content-tag="v-layout"
-          hide-actions
-          row
-          wrap
-          
-        >
-          
-          <template  v-slot:item="props"  >
-            <v-flex
-              xs4
-              sm6
-              md4
-              lg4
-              class="white"
-            >
-              <v-card >
-                <v-card-title  class=""><span class="subtitle-1">{{ props.item.nombre }}</span></v-card-title>
+        <v-card  class="transparent elevation-0" >
+          <v-card-text  >
+            <v-container fluid grid-list-sm>
+              <v-layout
+                row
+                wrap
+              >
+                <v-flex
+                  v-for="escuela in escuelas"
+                  :key="escuela.id_escuela"
+                  xs4
+                >
+                  <v-card>
+                    
+                    <v-card-text>
+                      <v-layout row wrap >
+                        <v-flex xs4 >
+                          <v-avatar
+                            size="100"
+                          
+                          >
+                            <img v-bind:src="escuela.logo!=null?store.state.serverHost+escuela.logo:require('./../assets/icon-forschools.png')" alt="" >
+                          </v-avatar>
+                        </v-flex>
+                        <v-flex xs8>
+                          <div class="title"><strong class=" "> Clave: </strong>{{escuela.id_escuela}}</div>
+                            <div class="title"><strong class=" "> Esucuela: </strong>{{escuela.nombre}}</div>
+                            <div class="subtitle"> {{escuela.direccion}} </div>
+                        </v-flex>
 
-                <v-container grid-list-xs>
-                  
-                </v-container>
-
-                <v-list dense>
-                  <v-list-tile>
-                    <v-list-tile-content>Clave de la escuela</v-list-tile-content>
-                    <v-list-tile-content class="align-end">{{ props.item.id_escuela }}</v-list-tile-content>
-                  </v-list-tile>
-
-                  <v-list-tile>
-                    <v-list-tile-content>Direccion</v-list-tile-content>
-                    <v-list-tile-content class="align-end">{{ props.item.direccion }}</v-list-tile-content>
-                  </v-list-tile>
-
-                </v-list>
-                <!-- <v-card-actions right>
-                  <v-btn color="success" dark icon @click="editar(props.item)"><v-icon>edit</v-icon></v-btn>
-                  <v-btn color="warning" dark icon><v-icon>delete_forever</v-icon></v-btn>
-                </v-card-actions> -->
-              </v-card>
-            </v-flex>
-          </template>
-        </v-data-iterator> 
+                      </v-layout>
+                    </v-card-text>
+        
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn icon  color="indigo">
+                        <v-icon>settings</v-icon>
+                      </v-btn>
+                      
+        
+                      <v-btn icon color="orange">
+                        <v-icon >edit</v-icon>
+                      </v-btn>
+                      <v-btn icon color="red">
+                        <v-icon>delete</v-icon>
+                      </v-btn>
+        
+                      
+                    </v-card-actions>
+                  </v-card>
+                </v-flex>
+              </v-layout>
+            </v-container>
           </v-card-text>
         </v-card>
         
       </v-card-text>
     </v-card>       
-
+    <DialogNuevaEscuela :editedItem="editedItem" :dialogEscuela="dialogNewEscuela"></DialogNuevaEscuela>
   </v-app>
         
         
 </template>
 
 <script>
- import EscuelaService from '../services/EscuelasService';
-
+  import EscuelaService from '../services/EscuelasService';
+  import DialogNuevaEscuela from './dialogs/nueva-escuela';
 
  export default {
+   components:{
+     DialogNuevaEscuela
+   },
     data: () => ({
         dialogNewEscuela:false,
         rowsPerPageItems: [4, 8, 12],
@@ -220,7 +198,34 @@
         this.editedItem=Object.assign({},this.editedtItem,item);
         this.editedIndex=this.escuelas.indexOf(item);
         this.dialogNewEscuela=true;
-      }
+      },
+      cargarArchivoIncidencia(e){
+        var self=this;
+        const files = e.target.files
+        if(files[0]!==undefined) {
+          
+          self.menuOpt[6].modals.incidencias.editedItem.Archivo.name = files[0].name;
+          self.menuOpt[6].modals.incidencias.editedItem.Archivo.type = files[0].type;
+          self.menuOpt[6].modals.incidencias.editedItem.Archivo.size=(files[0].size/1024).toFixed(2)+"  KB";
+          if(self.menuOpt[6].modals.incidencias.editedItem.Archivo.name.lastIndexOf('.') <= 0) {
+            
+            return
+          }
+          const fr = new FileReader ()  
+          fr.readAsDataURL(files[0])
+          fr.addEventListener('load', () => {
+            
+            self.menuOpt[6].modals.incidencias.editedItem.Archivo.file = files[0] // this is an image file that can be sent to server...
+            self.guardarArchivoIncidencia();
+          })
+          
+        } else {
+          self.menuOpt[6].modals.incidencias.editedItem.Archivo.name = ''
+          self.menuOpt[6].modals.incidencias.editedItem.Archivo.file = ''
+          self.menuOpt[6].modals.incidencias.editedItem.Archivo.type = ''
+          self.menuOpt[6].modals.incidencias.editedItem.Archivo.size="";
+        }
+      },
     }
   }
   
